@@ -1,5 +1,5 @@
-const CSSAsset = require("parcel-bundler/src/assets/CSSAsset");
-const purify = require("purifycss")
+const CSSAsset = require("parcel/src/assets/CSSAsset");
+const purify = require("purifycss");
 
 class PurifiedCssAsset extends CSSAsset {
   async load() {
@@ -7,8 +7,10 @@ class PurifiedCssAsset extends CSSAsset {
       return await super.load();
     }
 
-    const extensions = [ "html", "js", "jsx", "vue", "svelte" ];
-    const content = extensions.map(ext => `${ this.options.rootDir }/**/*.${ ext }`);
+    const extensions = ["html", "js", "jsx", "vue", "svelte"];
+    const content = extensions.map(
+      ext => `${this.options.rootDir}/**/*.${ext}`
+    );
     const source = await super.load();
     return await new Promise(r => purify(content, source, r));
   }
